@@ -22,18 +22,27 @@ with open(csvpath, newline='') as csvfile:
 
     total_months = 0
     total_profit = 0
+    profit = []
     change = []
     
 
     for row in csvreader:
         total_months = total_months + 1
-        prev_profit = total_profit
         total_profit = total_profit + int(row[1])
-        profit_change = total_profit - prev_profit
+        profit.append(int(row[1]))
+        if len(profit) == 1:
+            profit_change = profit[-1]
+        else:
+            profit_change = profit[-1] - profit[-2]
         change.append(profit_change)
+        if change[-1] == max(change):
+            best_month = row[0]
+        elif change[-1] == min(change):
+            worst_month = row[0]
 
-print(change)
 avg_change = sum(change) / len(change)
+greatest_increase = max(change)
+greatest_decrease = min(change)
     
 
 
@@ -55,9 +64,17 @@ print("Financial Analysis")
 print("-------------------------")
 print(f"Total Months: {total_months}")
 print(f"Net Total Profit: {total_profit}")
-#print(change)
 print(f"Average Change: {avg_change}")
-#print(f"Greatest Increase in Profits: {greatest_increase}")
-#print(f"Greatest Decrease in Profits: {greatest_decrease}")
+print(f"Greatest Increase in Profits: {best_month} {greatest_increase}")
+print(f"Greatest Decrease in Profits: {worst_month} {greatest_decrease}")
 
 #Export a text file with the analysis.
+f = open('financial_analysis.txt','w')
+f.write("Financial Analysis" + os.linesep)
+f.write("-------------------------" + os.linesep)
+f.write(f"Total Months: {total_months}" + os.linesep)
+f.write(f"Net Total Profit: {total_profit}" + os.linesep)
+f.write(f"Average Change: {avg_change}" + os.linesep)
+f.write(f"Greatest Increase in Profits: {best_month} {greatest_increase}" + os.linesep)
+f.write(f"Greatest Decrease in Profits: {worst_month} {greatest_decrease}" + os.linesep)
+f.close()
