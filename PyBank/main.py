@@ -14,7 +14,7 @@ with open(csvpath, newline='') as csvfile:
     # CSV reader specifies delimiter and variable that holds contents
     csvreader = csv.reader(csvfile, delimiter=',')
     csv_header = next(csvreader)
-    print(f"CSV Header: {csv_header}")
+    
 
 #Calculate the total number of months included in the dataset
 #Calculate the net total amount of "Profit/Losses" over the entire period
